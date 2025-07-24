@@ -140,6 +140,40 @@
             border-radius: 4px;
             font-weight: bold;
         }
+
+        .code-container {
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(103, 126, 234, 0.8);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .copy-button:hover {
+            background: rgba(103, 126, 234, 1);
+            transform: scale(1.05);
+        }
+
+        .copy-button.copied {
+            background: rgba(34, 197, 94, 0.8);
+        }
+
+        .copy-button.copied:hover {
+            background: rgba(34, 197, 94, 1);
+        }
     </style>
 </head>
 <body>
@@ -151,10 +185,13 @@
 
         <div class="setup-section">
             <h2 class="setup-title">⚙️ Configuração Inicial</h2>
-            <div class="code-block">-- Serviços necessários
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                <div class="code-block">-- Serviços necessários
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer</div>
+            </div>
         </div>
 
         <div class="functions-grid">
@@ -168,7 +205,10 @@ local player = Players.LocalPlayer</div>
                 <div class="function-description">
                     Carrega a biblioteca Fluent UI principal com todas as funcionalidades de interface.
                 </div>
-                <div class="code-block">local GuiLibrary = loadstring(game:HttpGet("https://scriptsbins.vercel.app/raw/yVmffkUNhrcTYFO3ZUK7"))()</div>
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">local GuiLibrary = loadstring(game:HttpGet("https://scriptsbins.vercel.app/raw/yVmffkUNhrcTYFO3ZUK7"))()</div>
+                </div>
             </div>
 
             <!-- Botão Toggle Flutuante -->
@@ -181,13 +221,16 @@ local player = Players.LocalPlayer</div>
                 <div class="function-description">
                     Cria um botão flutuante na tela para mostrar/ocultar a interface principal.
                 </div>
-                <div class="code-block">local ToggleButton = loadstring(game:HttpGet("https://scriptsbins.vercel.app/raw/Zwgu9bj6FBRw9WfIbBm8"))()
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">local ToggleButton = loadstring(game:HttpGet("https://scriptsbins.vercel.app/raw/Zwgu9bj6FBRw9WfIbBm8"))()
 ToggleButton.new({
     icon = "rbxassetid://6031091002",
     size = 40,
     position = {0.92, 0, 0.2, 0},
     onToggle = GuiLibrary.ToggleUI
 })</div>
+                </div>
             </div>
 
             <!-- Criar Janela -->
@@ -200,7 +243,10 @@ ToggleButton.new({
                 <div class="function-description">
                     Cria a janela principal da interface com título personalizado e dimensões específicas.
                 </div>
-                <div class="code-block">local window = GuiLibrary:CreateWindow("Meu Painel Completo", UDim2.new(0, 340, 0, 300))</div>
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">local window = GuiLibrary:CreateWindow("Meu Painel Completo", UDim2.new(0, 340, 0, 300))</div>
+                </div>
             </div>
 
             <!-- Criar Abas -->
@@ -213,9 +259,12 @@ ToggleButton.new({
                 <div class="function-description">
                     Organiza as funções em diferentes abas para melhor navegação e estruturação.
                 </div>
-                <div class="code-block">local abaPrincipal = window.CreateTab("Geral")
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">local abaPrincipal = window.CreateTab("Geral")
 local abaConfig = window.CreateTab("Configurações")
 local abaEstilo = window.CreateTab("Estética")</div>
+                </div>
             </div>
 
             <!-- Toggle -->
@@ -228,11 +277,14 @@ local abaEstilo = window.CreateTab("Estética")</div>
                 <div class="function-description">
                     Botão de alternância para ativar/desativar funcionalidades com callback personalizado.
                 </div>
-                <div class="code-block">local modoDebug = false
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">local modoDebug = false
 window.AddToggle(abaPrincipal, "Modo Debug", false, function(valor)
     modoDebug = valor
     window.Notify("Painel", valor and "Modo Debug: ON" or "Modo Debug: OFF", valor and "success" or "error")
 end)</div>
+                </div>
             </div>
 
             <!-- Botão -->
@@ -245,9 +297,12 @@ end)</div>
                 <div class="function-description">
                     Botão simples que executa uma função específica quando clicado.
                 </div>
-                <div class="code-block">window.AddButton(abaPrincipal, "Executar Ação", function()
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">window.AddButton(abaPrincipal, "Executar Ação", function()
     window.Notify("Ação", "Ação executada com sucesso!", "info")
 end)</div>
+                </div>
             </div>
 
             <!-- Slider -->
@@ -260,9 +315,12 @@ end)</div>
                 <div class="function-description">
                     Controle deslizante para valores numéricos com mínimo, máximo e valor padrão.
                 </div>
-                <div class="code-block">window.AddSlider(abaConfig, "Volume", 0, 100, 50, function(valor)
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">window.AddSlider(abaConfig, "Volume", 0, 100, 50, function(valor)
     window.Notify("Config", "Volume definido para: " .. valor, "info")
 end)</div>
+                </div>
             </div>
 
             <!-- TextBox -->
@@ -275,9 +333,12 @@ end)</div>
                 <div class="function-description">
                     Campo de entrada de texto para receber informações do usuário.
                 </div>
-                <div class="code-block">window.AddTextBox(abaConfig, "Digite seu nome", function(texto)
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">window.AddTextBox(abaConfig, "Digite seu nome", function(texto)
     window.Notify("Entrada", "Olá, " .. texto .. "!", "success")
 end)</div>
+                </div>
             </div>
 
             <!-- Label -->
@@ -290,7 +351,10 @@ end)</div>
                 <div class="function-description">
                     Texto estático para exibir informações ou instruções aos usuários.
                 </div>
-                <div class="code-block">window.AddLabel(abaConfig, "Este painel é apenas um exemplo de UI.")</div>
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">window.AddLabel(abaConfig, "Este painel é apenas um exemplo de UI.")</div>
+                </div>
             </div>
 
             <!-- Color Picker -->
@@ -303,10 +367,13 @@ end)</div>
                 <div class="function-description">
                     Permite ao usuário escolher cores personalizadas para diferentes elementos.
                 </div>
-                <div class="code-block">window.AddColorPicker(abaEstilo, "Cor de Fundo", Color3.fromRGB(0, 170, 255), function(cor)
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">window.AddColorPicker(abaEstilo, "Cor de Fundo", Color3.fromRGB(0, 170, 255), function(cor)
     window.Notify("Cor", "Nova cor escolhida!", "info")
     print("Cor escolhida:", cor)
 end)</div>
+                </div>
             </div>
 
             <!-- Controles de Teclado -->
@@ -319,11 +386,14 @@ end)</div>
                 <div class="function-description">
                     Configura teclas de atalho para alternar a interface (tecla <span class="highlight">P</span>).
                 </div>
-                <div class="code-block">UserInputService.InputBegan:Connect(function(input, gpe)
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">UserInputService.InputBegan:Connect(function(input, gpe)
     if not gpe and input.KeyCode == Enum.KeyCode.P then
         GuiLibrary:ToggleUI()
     end
 end)</div>
+                </div>
             </div>
 
             <!-- Sistema de Notificações -->
@@ -336,8 +406,11 @@ end)</div>
                 <div class="function-description">
                     Exibe notificações para informar o usuário sobre ações e status do sistema.
                 </div>
-                <div class="code-block">-- Tipos: "success", "error", "info", "warning"
+                <div class="code-container">
+                    <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                    <div class="code-block">-- Tipos: "success", "error", "info", "warning"
 window.Notify("Sistema", "UI carregada com sucesso!", "success")</div>
+                </div>
             </div>
         </div>
 
@@ -346,7 +419,9 @@ window.Notify("Sistema", "UI carregada com sucesso!", "success")</div>
             <div class="function-description" style="margin-bottom: 15px;">
                 Aqui está o código completo mostrando como usar todas as funções da biblioteca:
             </div>
-            <div class="code-block">-- Criar janela principal
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
+                <div class="code-block">-- Criar janela principal
 local window = GuiLibrary:CreateWindow("Meu Painel Completo", UDim2.new(0, 340, 0, 300))
 
 -- Criar abas
@@ -364,6 +439,7 @@ window.AddColorPicker(abaEstilo, "Cor de Fundo", Color3.fromRGB(0, 170, 255), fu
 
 -- Notificação inicial
 window.Notify("Sistema", "UI carregada com sucesso!", "success")</div>
+            </div>
         </div>
 
         <div class="footer">
@@ -371,5 +447,33 @@ window.Notify("Sistema", "UI carregada com sucesso!", "success")</div>
             <p>Desenvolvido com ❤️ para a comunidade Roblox</p>
         </div>
     </div>
+
+    <script>
+        function copyCode(button) {
+            // Encontra o elemento code-block irmão do botão
+            const codeBlock = button.nextElementSibling;
+            const codeText = codeBlock.textContent;
+            
+            // Copia o texto para a área de transferência
+            navigator.clipboard.writeText(codeText).then(function() {
+                // Muda o texto e estilo do botão temporariamente
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.classList.add('copied');
+                
+                // Volta ao normal após 2 segundos
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Erro ao copiar: ', err);
+                button.textContent = '❌ Erro';
+                setTimeout(function() {
+                    button.textContent = '📋 Copiar';
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>

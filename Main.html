@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca UI - Roblox</title>
+    <title>Biblioteca XUI</title>
     <style>
         * {
             margin: 0;
@@ -179,7 +179,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎮 Biblioteca UI - Roblox</h1>
+            <h1>🎮 Biblioteca XUI</h1>
             <p>Interface moderna e funcional para seus scripts do Roblox</p>
         </div>
 
@@ -421,30 +421,77 @@ window.Notify("Sistema", "UI carregada com sucesso!", "success")</div>
             </div>
             <div class="code-container">
                 <button class="copy-button" onclick="copyCode(this)">📋 Copiar</button>
-                <div class="code-block">-- Criar janela principal
-local window = GuiLibrary:CreateWindow("Meu Painel Completo", UDim2.new(0, 340, 0, 300))
+                <div class="code-block"> -- Serviços necessários
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+
+-- Carregar a biblioteca e botão móvel
+local GuiLibrary = loadstring(game:HttpGet("https://scriptsbins.vercel.app/raw/yVmffkUNhrcTYFO3ZUK7"))()
+local ToggleButton = loadstring(game:HttpGet("https://scriptsbins.vercel.app/raw/Zwgu9bj6FBRw9WfIbBm8"))()
+
+-- Criar botão móvel para abrir/fechar a UI
+ToggleButton.new({
+    icon = "rbxassetid://6031091002",
+    size = 50,
+    position = {0.92, 0, 0.15, 0},
+    toggleKey = "P",
+    onToggle = GuiLibrary.ToggleUI
+})
+
+-- Criar janela principal
+local window = GuiLibrary:CreateWindow("Exemplo Completo", UDim2.new(0, 360, 0, 340))
 
 -- Criar abas
-local abaPrincipal = window.CreateTab("Geral")
-local abaConfig = window.CreateTab("Configurações")
+local abaGeral = window.CreateTab("Geral")
+local abaOpcoes = window.CreateTab("Opções")
 local abaEstilo = window.CreateTab("Estética")
 
--- Adicionar elementos
-window.AddToggle(abaPrincipal, "Modo Debug", false, function(valor) end)
-window.AddButton(abaPrincipal, "Executar Ação", function() end)
-window.AddSlider(abaConfig, "Volume", 0, 100, 50, function(valor) end)
-window.AddTextBox(abaConfig, "Digite seu nome", function(texto) end)
-window.AddLabel(abaConfig, "Texto informativo")
-window.AddColorPicker(abaEstilo, "Cor de Fundo", Color3.fromRGB(0, 170, 255), function(cor) end)
+-- Toggle
+local modoDev = false
+window.AddToggle(abaGeral, "Modo Desenvolvedor", false, function(valor)
+    modoDev = valor
+    window.Notify("Status", valor and "Modo Dev: ATIVO" or "Modo Dev: DESATIVADO", valor and "success" or "warning")
+end)
+
+-- Botão
+window.AddButton(abaGeral, "Executar Script", function()
+    window.Notify("Execução", "Script executado com sucesso!", "info")
+end)
+
+-- Slider
+window.AddSlider(abaOpcoes, "Volume", 0, 100, 25, function(valor)
+    print("Volume ajustado para:", valor)
+end)
+
+-- TextBox
+window.AddTextBox(abaOpcoes, "Seu nome:", "Digite aqui", "", function(texto)
+    window.Notify("Bem-vindo", "Olá, " .. texto, "success")
+end)
+
+-- Label
+window.AddLabel(abaOpcoes, "Informação: Isso é apenas um exemplo!")
+
+-- Dropdown
+window.AddDropdown(abaOpcoes, "Escolha uma opção", {"Fácil", "Médio", "Difícil"}, "Fácil", function(opcao)
+    print("Opção selecionada:", opcao)
+end)
+
+-- Color Picker
+window.AddColorPicker(abaEstilo, "Cor Tema", Color3.fromRGB(255, 128, 0), function(cor)
+    print("Nova cor escolhida:", cor)
+    window.Notify("Estética", "Cor atualizada!", "info")
+end)
 
 -- Notificação inicial
-window.Notify("Sistema", "UI carregada com sucesso!", "success")</div>
+window.Notify("Sistema", "Interface carregada com sucesso!", "success")
+</div>
             </div>
         </div>
 
         <div class="footer">
-            <p>📚 Biblioteca UI para Roblox - Interface moderna e funcional</p>
-            <p>Desenvolvido com ❤️ para a comunidade Roblox</p>
+            <p>📚 Biblioteca UI para Scripts Roblox Interface moderna e funcional.</p>
+            <p></p>
         </div>
     </div>
 

@@ -319,7 +319,44 @@
             font-size: 1.4rem;
         }
 
-        /* Loading state para o botão */
+        /* Botão de reload */
+        .reload-btn {
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.4);
+            color: #3498db;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reload-btn:hover {
+            background: rgba(52, 152, 219, 0.3);
+            border-color: rgba(52, 152, 219, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .reload-btn:active {
+            transform: translateY(0);
+        }
+
+        .reload-btn.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .reload-btn.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
         .get-key-btn.loading {
             background: linear-gradient(90deg, #666, #555);
             cursor: not-allowed;
@@ -461,12 +498,6 @@
                     <li>
                         <div class="game-icon">
                             <i class="fas fa-gamepad"></i>
-                            </div>
-                        <span>Steal Brainrot</span>
-                    </li>
-                    <li>
-                        <div class="game-icon">
-                            <i class="fas fa-gamepad"></i>
                         </div>
                         <span>99 Noites na Floresta</span>
                     </li>
@@ -479,6 +510,14 @@
                 <i class="fas fa-key"></i>
                 <span class="btn-text">Carregando</span>
             </a>
+            
+            <!-- Botão para forçar atualização -->
+            <div style="margin-top: 15px;">
+                <button onclick="reloadConfig()" class="reload-btn" title="Forçar atualização da configuração">
+                    <i class="fas fa-sync-alt"></i> Atualizar
+                </button>
+            </div>
+            
             <div id="errorMessage" class="error-message" style="display: none;"></div>
         </div>
         
@@ -490,12 +529,30 @@
 
     <script>
         // Configuração do arquivo JSON
-        const CONFIG_FILE_URL = 'config.json'; // Caminho para o arquivo JSON
+        // MÉTODO 1: GitHub Raw (Mais rápido - atualizações em ~30 segundos)
+        const CONFIG_FILE_URL = 'https://raw.githubusercontent.com/MrMoneys/Blibioteca-X-Ui/refs/heads/main/config.json';
+        
+        // MÉTODO 2: jsDelivr CDN (Alternativo - cache de 7 dias, mas pode purgar)
+        // const CONFIG_FILE_URL = 'https://cdn.jsdelivr.net/gh/SEU-USUARIO/SEU-REPOSITORIO/config.json';
+        
+        // MÉTODO 3: GitHub Pages (Original - mais lento)
+        // const CONFIG_FILE_URL = 'config.json';
 
         // Função para carregar configurações do arquivo JSON
         async function loadConfig() {
             try {
-                const response = await fetch(CONFIG_FILE_URL);
+                // Adicionar timestamp para evitar cache
+                const timestamp = new Date().getTime();
+                const urlWithCache = `${CONFIG_FILE_URL}?v=${timestamp}`;
+                
+                const response = await fetch(urlWithCache, {
+                    // Headers para evitar cache
+                    headers: {
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache',
+                        'Expires': '0'
+                    }
+                });
                 
                 if (!response.ok) {
                     throw new Error(`Erro HTTP: ${response.status}`);
@@ -506,6 +563,32 @@
             } catch (error) {
                 console.error('Erro ao carregar configuração:', error);
                 throw error;
+            }
+        }
+
+        // Função para recarregar configuração manualmente
+        async function reloadConfig() {
+            const getKeyBtn = document.getElementById('getKeyBtn');
+            const originalText = getKeyBtn.querySelector('.btn-text').textContent;
+            
+            // Mostrar que está recarregando
+            getKeyBtn.classList.add('loading');
+            getKeyBtn.querySelector('.btn-text').textContent = 'Atualizando';
+            
+            try {
+                const config = await loadConfig();
+                updateGetKeyButton(config);
+                
+                // Feedback visual de sucesso
+                getKeyBtn.style.background = 'linear-gradient(90deg, #2ecc71, #22a355)';
+                setTimeout(() => {
+                    getKeyBtn.style.background = '';
+                }, 2000);
+                
+            } catch (error) {
+                showError('Erro ao atualizar configurações.');
+                getKeyBtn.querySelector('.btn-text').textContent = originalText;
+                getKeyBtn.classList.remove('loading');
             }
         }
 
@@ -587,6 +670,31 @@
                 showError('Erro ao carregar configurações. Tente novamente mais tarde.');
             }
         });
+
+        // Auto-reload a cada 30 segundos (opcional)
+        setInterval(async () => {
+            try {
+                const config = await loadConfig();
+                const currentUrl = document.getElementById('getKeyBtn').href;
+                
+                // Só atualizar se realmente mudou
+                if (config.keyUrl && config.keyUrl !== currentUrl) {
+                    updateGetKeyButton(config);
+                    
+                    // Mostrar notificação sutil
+                    const btn = document.getElementById('getKeyBtn');
+                    const originalBg = btn.style.background;
+                    btn.style.background = 'linear-gradient(90deg, #f39c12, #e67e22)';
+                    
+                    setTimeout(() => {
+                        btn.style.background = originalBg;
+                    }, 3000);
+                }
+            } catch (error) {
+                // Silencioso - não mostrar erro no auto-reload
+                console.log('Auto-reload falhou:', error);
+            }
+        }, 30000); // 30 segundos
         
         // Adicionar classe animated aos elementos quando a página carrega
         document.addEventListener('DOMContentLoaded', function() {

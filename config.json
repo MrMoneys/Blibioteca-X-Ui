@@ -1,6 +1,6 @@
 {
   "keyUrl": "https://linksversite.com",
-  "buttonText": "GET KEY 14H",
+  "buttonText": "GET KEY",
   "systemStatus": {
     "online": true,
     "message": "Nosso sistema de keys está funcionando perfeitamente. Você pode obter sua key de acesso clicando no botão abaixo."
@@ -19,6 +19,6 @@
       "icon": "fas fa-gamepad"
     }
   ],
-  "lastUpdated": "2025-08-21T09:55:57.774Z",
-  "_sha": "c661f52b31ad25263d30e48d6ae91fef1ebc1828"
+  "lastUpdated": "2025-08-21T09:59:00.927Z",
+  "_sha": "288ebbe6b353c2fbaa1645898a493b6253fd0a25"
 }

@@ -2,7 +2,7 @@
   "keyUrl": "https://link-hub.net/1385208/cYWcdVENbmeF",
   "buttonText": "GET  KEY",
   "systemStatus": {
-    "online": false,
+    "online": true,
     "message": "Nosso sistema de keys está funcionando perfeitamente. Você pode obter sua key de acesso clicando no botão abaixo."
   },
   "games": [
@@ -19,6 +19,6 @@
       "icon": "fas fa-gamepad"
     }
   ],
-  "lastUpdated": "2025-08-21T22:07:22.350Z",
-  "_sha": "78bc0bc660346aa06e4a88d7b8467008b6fc7141"
+  "lastUpdated": "2025-08-21T22:13:25.345Z",
+  "_sha": "fd1db0a8f05fef4f668ee67d51f71ea29de96ea8"
 }

@@ -1,0 +1,24 @@
+{
+  "keyUrl": "https://link-center.net/1385208/4gnailp273jA",
+  "buttonText": "GET KEY",
+  "systemStatus": {
+    "online": true,
+    "message": "Nosso sistema de keys está funcionando perfeitamente. Você pode obter sua key de acesso clicando no botão abaixo."
+  },
+  "games": [
+    {
+      "name": "Vox Seas",
+      "icon": "fas fa-gamepad"
+    },
+{
+      "name": "Steal Brainrot",
+      "icon": "fas fa-gamepad"
+    },
+
+    {
+      "name": "99 Noites na Floresta", 
+      "icon": "fas fa-gamepad"
+    }
+  ],
+  "lastUpdated": "2025-08-20T15:30:00Z"
+}

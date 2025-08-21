@@ -1,5 +1,5 @@
 {
-  "keyUrl": "google.com",
+  "keyUrl": "https://raw.githubusercontent.com/shakaUnlocked/IiI/refs/heads/main/vxs.lua",
   "buttonText": "GET KEY",
   "systemStatus": {
     "online": true,
@@ -19,6 +19,6 @@
       "icon": "fas fa-gamepad"
     }
   ],
-  "lastUpdated": "2025-08-21T14:28:12.801Z",
-  "_sha": "6ab8442dffb65ad8f0ab4758b50eb72c449f38cf"
+  "lastUpdated": "2025-08-21T15:22:00.846Z",
+  "_sha": "c0f3ec89b4c597b81d3ea2f346697a7377566b91"
 }

@@ -1,6 +1,6 @@
 {
   "keyUrl": "https://gogle.com",
-  "buttonText": "GET KEY",
+  "buttonText": "GET KEY 14H",
   "systemStatus": {
     "online": true,
     "message": "Nosso sistema de keys está funcionando perfeitamente. Você pode obter sua key de acesso clicando no botão abaixo."
@@ -19,6 +19,6 @@
       "icon": "fas fa-gamepad"
     }
   ],
-  "lastUpdated": "2025-08-21T01:14:53.528Z",
-  "_sha": "ecd1d74102f05c41b9a96e69ba2fc4614b700c8a"
+  "lastUpdated": "2025-08-21T09:55:40.554Z",
+  "_sha": "e275cd4ed719e59679a4663d5d9b88bb2f74814c"
 }

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XLauch Hub - Painel Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0c 0%, #1a1a22 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-card {
+            background: linear-gradient(145deg, #0f0f12, #0a0a0c);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .admin-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #969696, #646464, #787878);
+            border-radius: 22px;
+            z-index: -1;
+            animation: border-glow 3s linear infinite;
+        }
+
+        @keyframes border-glow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(22, 22, 28, 0.8);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            background: rgba(22, 22, 28, 1);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #2ecc71, #22a355);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #34d179, #28b45f);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(90deg, #5dade2, #3498db);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(90deg, #ec7063, #e74c3c);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+        }
+
+        .status-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        .status-warning {
+            background: rgba(241, 196, 15, 0.1);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+            color: #f1c40f;
+        }
+
+        .config-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .auth-section {
+            margin-bottom: 30px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .github-info {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            color: #3498db;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .github-info a {
+            color: #5dade2;
+            text-decoration: none;
+        }
+
+        .github-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-cogs"></i> Painel de Administração</h1>
+            <p>XLauch Hub - Gerenciamento de Configurações</p>
+        </div>
+
+        <!-- Seção de Autenticação GitHub -->
+        <div class="admin-card auth-section" id="authSection">
+            <h2><i class="fab fa-github"></i> Configuração GitHub</h2>
+            <div class="github-info">
+                <strong>Como configurar:</strong><br>
+                1. Vá em <a href="https://github.com/settings/tokens" target="_blank">GitHub → Settings → Developer settings → Personal access tokens</a><br>
+                2. Clique em "Generate new token (classic)"<br>
+                3. Marque as permissões: <code>repo</code> (Full control of private repositories)<br>
+                4. Copie o token gerado e cole abaixo
+            </div>
+            
+            <div class="form-group">
+                <label for="githubToken">GitHub Personal Access Token:</label>
+                <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            </div>
+            
+            <div class="form-group">
+                <label for="githubRepo">Repositório (formato: usuario/repositorio):</label>
+                <input type="text" id="githubRepo" placeholder="seu-usuario/nome-do-repositorio">
+            </div>
+            
+            <div class="form-group">
+                <label for="configPath">Caminho do config.json:</label>
+                <input type="text" id="configPath" value="config.json" placeholder="config.json">
+            </div>
+            
+            <button class="btn btn-secondary" onclick="loadCurrentConfig()">
+                <i class="fas fa-download"></i> Carregar Configuração Atual
+            </button>
+        </div>
+
+        <!-- Seção de Edição -->
+        <div class="admin-card hidden" id="editSection">
+            <h2><i class="fas fa-edit"></i> Editar Configuração</h2>
+            
+            <div class="form-group">
+                <label for="keyUrl">URL da Key:</label>
+                <input type="url" id="keyUrl" placeholder="https://XlauchKey.net">
+            </div>
+            
+            <div class="form-group">
+                <label for="buttonText">Texto do Botão:</label>
+                <input type="text" id="buttonText" placeholder="GET KEY">
+            </div>
+            
+            <div class="form-group">
+                <label for="statusMessage">Mensagem de Status:</label>
+                <textarea id="statusMessage" placeholder="Nosso sistema de keys está funcionando..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="jsonEditor">Edição Avançada (JSON Completo):</label>
+                <textarea id="jsonEditor" rows="15"></textarea>
+            </div>
+            
+            <h3>Preview da Configuração:</h3>
+            <div class="config-preview" id="configPreview"></div>
+            
+            <button class="btn btn-primary" onclick="updateConfig()">
+                <i class="fas fa-save"></i> Salvar Configuração
+            </button>
+            
+            <button class="btn btn-secondary" onclick="loadCurrentConfig()">
+                <i class="fas fa-refresh"></i> Recarregar
+            </button>
+            
+            <button class="btn btn-danger" onclick="resetConfig()">
+                <i class="fas fa-undo"></i> Resetar
+            </button>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message hidden"></div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let currentConfig = {};
+        let githubApi = null;
+
+        // Configuração inicial
+        const defaultConfig = {
+            keyUrl: "https://XlauchKey.net",
+            buttonText: "GET KEY",
+            systemStatus: {
+                online: true,
+                message: "Nosso sistema de keys está funcionando perfeitamente. Você pode obter sua key de acesso clicando no botão abaixo."
+            },
+            games: [
+                {
+                    name: "Vox Seas",
+                    icon: "fas fa-gamepad"
+                },
+                {
+                    name: "99 Noites na Floresta",
+                    icon: "fas fa-gamepad"
+                }
+            ],
+            lastUpdated: new Date().toISOString()
+        };
+
+        // Classe para interagir com GitHub API
+        class GitHubAPI {
+            constructor(token, repo) {
+                this.token = token;
+                this.repo = repo;
+                this.baseUrl = 'https://api.github.com';
+            }
+
+            async request(endpoint, method = 'GET', data = null) {
+                const url = `${this.baseUrl}/repos/${this.repo}/${endpoint}`;
+                const options = {
+                    method,
+                    headers: {
+                        'Authorization': `token ${this.token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(url, options);
+                
+                if (!response.ok) {
+                    throw new Error(`GitHub API Error: ${response.status} ${response.statusText}`);
+                }
+
+                return response.json();
+            }
+
+            async getFile(path) {
+                try {
+                    const data = await this.request(`contents/${path}`);
+                    const content = atob(data.content);
+                    return { content, sha: data.sha };
+                } catch (error) {
+                    if (error.message.includes('404')) {
+                        return null; // Arquivo não existe
+                    }
+                    throw error;
+                }
+            }
+
+            async updateFile(path, content, message, sha = null) {
+                const data = {
+                    message,
+                    content: btoa(content)
+                };
+
+                if (sha) {
+                    data.sha = sha;
+                }
+
+                return this.request(`contents/${path}`, 'PUT', data);
+            }
+        }
+
+        // Função para mostrar mensagens de status
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.className = `status-message status-${type}`;
+            statusEl.textContent = message;
+            statusEl.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusEl.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Função para carregar configuração atual do GitHub
+        async function loadCurrentConfig() {
+            const token = document.getElementById('githubToken').value;
+            const repo = document.getElementById('githubRepo').value;
+            const path = document.getElementById('configPath').value;
+
+            if (!token || !repo) {
+                showStatus('Por favor, preencha o token do GitHub e o repositório.', 'error');
+                return;
+            }
+
+            try {
+                showStatus('Carregando configuração...', 'warning');
+                
+                githubApi = new GitHubAPI(token, repo);
+                const fileData = await githubApi.getFile(path);
+                
+                if (fileData) {
+                    currentConfig = JSON.parse(fileData.content);
+                    currentConfig._sha = fileData.sha; // Salvar SHA para updates
+                } else {
+                    currentConfig = { ...defaultConfig };
+                    showStatus('Arquivo config.json não encontrado. Usando configuração padrão.', 'warning');
+                }
+
+                populateForm();
+                document.getElementById('authSection').classList.add('hidden');
+                document.getElementById('editSection').classList.remove('hidden');
+                
+                showStatus('Configuração carregada com sucesso!');
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                showStatus(`Erro ao carregar configuração: ${error.message}`, 'error');
+            }
+        }
+
+        // Função para popular o formulário com os dados atuais
+        function populateForm() {
+            document.getElementById('keyUrl').value = currentConfig.keyUrl || '';
+            document.getElementById('buttonText').value = currentConfig.buttonText || '';
+            document.getElementById('statusMessage').value = currentConfig.systemStatus?.message || '';
+            document.getElementById('jsonEditor').value = JSON.stringify(currentConfig, null, 2);
+            
+            updatePreview();
+        }
+
+        // Função para atualizar o preview
+        function updatePreview() {
+            const preview = document.getElementById('configPreview');
+            preview.textContent = JSON.stringify(currentConfig, null, 2);
+        }
+
+        // Função para atualizar configuração no GitHub
+        async function updateConfig() {
+            if (!githubApi) {
+                showStatus('Erro: GitHub API não configurada.', 'error');
+                return;
+            }
+
+            try {
+                // Atualizar config com valores do formulário
+                const newConfig = JSON.parse(document.getElementById('jsonEditor').value);
+                newConfig.lastUpdated = new Date().toISOString();
+                
+                const path = document.getElementById('configPath').value;
+                const message = `Atualizar configuração XLauch Hub - ${new Date().toLocaleString()}`;
+                
+                showStatus('Salvando configuração...', 'warning');
+                
+                await githubApi.updateFile(
+                    path,
+                    JSON.stringify(newConfig, null, 2),
+                    message,
+                    currentConfig._sha
+                );
+                
+                currentConfig = newConfig;
+                updatePreview();
+                
+                showStatus('Configuração atualizada com sucesso! As mudanças aparecerão no site em alguns minutos.');
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                showStatus(`Erro ao salvar configuração: ${error.message}`, 'error');
+            }
+        }
+
+        // Função para resetar configuração
+        function resetConfig() {
+            if (confirm('Tem certeza que deseja resetar para a configuração padrão?')) {
+                currentConfig = { ...defaultConfig };
+                populateForm();
+                showStatus('Configuração resetada para padrão.', 'warning');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('keyUrl').addEventListener('input', function() {
+            currentConfig.keyUrl = this.value;
+            updateFormFromFields();
+        });
+
+        document.getElementById('buttonText').addEventListener('input', function() {
+            currentConfig.buttonText = this.value;
+            updateFormFromFields();
+        });
+
+        document.getElementById('statusMessage').addEventListener('input', function() {
+            if (!currentConfig.systemStatus) currentConfig.systemStatus = {};
+            currentConfig.systemStatus.message = this.value;
+            updateFormFromFields();
+        });
+
+        document.getElementById('jsonEditor').addEventListener('input', function() {
+            try {
+                const newConfig = JSON.parse(this.value);
+                currentConfig = newConfig;
+                updatePreview();
+            } catch (error) {
+                // JSON inválido, não atualizar
+            }
+        });
+
+        function updateFormFromFields() {
+            document.getElementById('jsonEditor').value = JSON.stringify(currentConfig, null, 2);
+            updatePreview();
+        }
+
+        // Carregar configuração padrão na inicialização
+        currentConfig = { ...defaultConfig };
+        updatePreview();
+    </script>
+</body>
+</html>
